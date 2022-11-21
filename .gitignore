@@ -1,0 +1,8 @@
+# Ignore vendor
+/vendor
+/tests/reports
+/.phpunit.result.cache
+
+# IDEs and editors
+/.idea
+

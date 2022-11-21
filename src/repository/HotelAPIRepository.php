@@ -59,11 +59,23 @@ class HotelAPIRepository implements Repository
      */
     private function loadSourcingData(array $sources = []): void
     {
-        if (empty($this->data)) {
+        if (empty($this->items)) {
+            $this->initializeItems();
+            
             foreach ($sources as $source) {
                 $this->fetchSourceEndpoint($source);
             }
         }
+    }
+    
+    /**
+     * Initialize items
+     *
+     * @return void
+     */
+    private function initializeItems(): void
+    {
+        $this->items = new Collection;
     }
     
     /**
@@ -77,7 +89,6 @@ class HotelAPIRepository implements Repository
     {
         try {
             $response = $this->client->get($source);
-
             if ($response->getStatusCode() === 200) {
                 $this->setItems(json_decode($response->getBody()->getContents(), true));
             }
@@ -89,14 +100,14 @@ class HotelAPIRepository implements Repository
     /**
      * Set items
      *
-     * @param array $items
+     * @param array|null $items
      *
      * @return void
      */
-    private function setItems(array $items): void
+    private function setItems(?array $items = []): void
     {
-        $this->items = new Collection;
-        foreach (data_get($items, 'message') as $item) {
+        
+        foreach (data_get($items, 'message', []) as $item) {
             if ($this->validateItem($item)) {
                 $this->items->add(new Hotel(
                     data_get($item, self::NAME_INFO),

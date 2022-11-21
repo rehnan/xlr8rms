@@ -33,15 +33,20 @@ class HotelAPIRepositoryTest extends \PHPUnit\Framework\TestCase {
     public function testLoadSourcingDataSuccessfully() {
         
         $clientMock = $this->getClientRestMockInstance();
+    
+        $source1 = json_decode(HotelRepositoryFixtures::getRawPayloadSource1());
+        $source2 = json_decode(HotelRepositoryFixtures::getRawPayloadSource2());
         
+        $totalRecords = count(data_get($source1, 'message')) + count(data_get($source2, 'message'));
+
         $sources = [
             'http://source-repo-1/source.json',
             'http://source-repo-2/source.json'
         ];
         
         $hotelAPIRepository = new HotelAPIRepository($sources, $clientMock);
-        
-        $this->assertSame($hotelAPIRepository->getItems()->count(), 13);
+
+        $this->assertSame($hotelAPIRepository->getItems()->count(), $totalRecords);
     }
 }
 

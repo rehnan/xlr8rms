@@ -11,7 +11,13 @@
     ],
     "autoload": {
         "psr-4": {
-            "XLR8RMS\\App\\": "src"
+            "XLR8RMS\\App\\": "src",
+            "XLR8RMS\\App\\Entity\\": "src/entity",
+            "XLR8RMS\\App\\Enums\\": "src/enums",
+            "XLR8RMS\\App\\Interfaces\\": "src/interfaces",
+            "XLR8RMS\\App\\Repository\\": "src/repository",
+            "XLR8RMS\\App\\Service\\": "src/service",
+            "XLR8RMS\\App\\Strategy\\": "src/strategy"
         }
     },
     "autoload-dev": {
